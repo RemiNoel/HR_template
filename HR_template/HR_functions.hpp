@@ -35,6 +35,8 @@ namespace HR_functions {
 
 	boost::multiprecision::int128_t modifiedFibo(boost::multiprecision::int128_t n);
 
+	__int64 minItems(std::vector<int>& scores);
+
 }
 
 #endif // ! HR_FUNCTIONS_HPP

@@ -169,4 +169,34 @@ boost::multiprecision::int128_t HR_functions::modifiedFibo(boost::multiprecision
 	return modifiedFibo(n - 1) + pow(modifiedFibo(n - 2), 2);
 }
 
+// Finds the minimum value of needed items to buy depending on the values of scores
+__int64 HR_functions::minItems(std::vector<int>& scores) {
+	// the value of the sum of all needed items
+	__int64  minOfItems = 0;
+	//Initialize the container of items (Left to right trend)
+	std::vector<int> candyQuantLeft(scores.size(), 1);
+	// Initialize the container of items (Right to left trend)
+	std::vector<int> candyQuantRight(scores.size(), 1);
+
+	// Check trend from left to right
+	for (int i = 1; i < scores.size(); ++i) {
+		if (scores.at(i) > scores.at(i - 1))
+			candyQuantLeft.at(i) = candyQuantLeft.at(i - 1) + 1;
+	}
+
+	// Check trend from right to left
+	for (int i = scores.size() - 2; i >= 0; --i) {
+		if (scores.at(i) > scores.at(i + 1))
+			candyQuantRight.at(i) = candyQuantRight.at(i + 1) + 1;
+	}
+
+	// For it to be correct, we need to find the max value of items to give from each trends
+	// That is, if we only check in one side, it could be possible that a student has a higher score 
+	// than the one on its right but has not been rewarded correctly.
+	for (int i = 0; i < scores.size(); ++i)
+		minOfItems += std::max(candyQuantLeft[i], candyQuantRight[i]);
+
+	return minOfItems;
+}
+
 
