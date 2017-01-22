@@ -1,4 +1,4 @@
-#ifndef  HR_FUNCTIONS_HPP
+#ifndef HR_FUNCTIONS_HPP
 #define HR_FUNCTIONS_HPP
 
 #include <vector>
@@ -10,11 +10,28 @@
 #include <boost/multiprecision/cpp_int.hpp>
 
 
-/*
-	Namespace for functions used to solve various Hackerrank.com problems
-*/
+
+// Namespace for functions used to solve various Hackerrank.com problems
+
 
 namespace HR_functions {
+
+	namespace FindMissArr {
+		template<class TYPE>
+		int findLargestArr(std::vector<std::vector<TYPE>>);
+
+		template<class TYPE>
+		int getLengthOfMissingArray(std::vector<std::vector<TYPE>>);
+
+		template<class TYPE>
+		std::vector<std::vector<TYPE>> input;
+	}
+
+	namespace MaxLengthDiff {
+		static int mxdiflg(std::vector<std::string> &a1, std::vector<std::string> &a2);
+		static int largestString(std::vector<std::string> &s);
+		static int smallestString(std::vector<std::string> &s);
+	}
 
 	struct minMax {
 		long long min;

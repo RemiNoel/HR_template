@@ -1,4 +1,4 @@
-#include "HR_functions.hpp"
+﻿#include "HR_functions.hpp"
 
 // Finds the element that is singular in a vector (can only be one for this version)
 int HR_functions::lonelyInteger(std::vector<int>& a) {
@@ -156,7 +156,7 @@ void HR_functions::pprint() {
 	}
 }
 
-// Fibonacci sequence dealing with very large numbers (F(n) = F(n-1) + F(n-2)�
+// Fibonacci sequence dealing with very large numbers (F(n) = F(n-1) + F(n-2)²
 boost::multiprecision::int128_t HR_functions::modifiedFibo(boost::multiprecision::int128_t n) {
 	if (n < 0 || n > 20)
 		return -1;
@@ -179,7 +179,7 @@ __int64 HR_functions::minItems(std::vector<int>& scores) {
 	std::vector<int> candyQuantRight(scores.size(), 1);
 
 	// Check trend from left to right
-	for (int i = 1; i < scores.size(); ++i) {
+	for (unsigned int i = 1; i < scores.size(); ++i) {
 		if (scores.at(i) > scores.at(i - 1))
 			candyQuantLeft.at(i) = candyQuantLeft.at(i - 1) + 1;
 	}
@@ -193,10 +193,90 @@ __int64 HR_functions::minItems(std::vector<int>& scores) {
 	// For it to be correct, we need to find the max value of items to give from each trends
 	// That is, if we only check in one side, it could be possible that a student has a higher score 
 	// than the one on its right but has not been rewarded correctly.
-	for (int i = 0; i < scores.size(); ++i)
+	for (unsigned int i = 0; i < scores.size(); ++i)
 		minOfItems += std::max(candyQuantLeft[i], candyQuantRight[i]);
 
 	return minOfItems;
+}
+
+
+// Find the largest array in a 2D-array
+template<class TYPE>
+int HR_functions::FindMissArr::findLargestArr(std::vector<std::vector<TYPE>> arrOfArr) {
+	int tempSz = 0;
+	for (int i = 0; i < arrOfArr.size(); ++i) {
+		if (tempSz < arrOfArr[i].size())
+			tempSz = arrOfArr[i].size();
+	}
+	return tempSz;
+}
+
+// Finds the missing array in a 2D array (e.g. 2D array contains arrays of size : 2,5,3,1 --> the missing array is of size 4
+template<class TYPE>
+int HR_functions::FindMissArr::getLengthOfMissingArray(std::vector<std::vector<TYPE>> arrayOfArrays)
+{
+	if (arrayOfArrays.size() == 0)
+		return 0;
+
+	for (int i = 0; i < arrayOfArrays.size(); ++i)
+		if (arrayOfArrays[i].size() == 0)
+			return 0;
+
+	// returns the largest size of subarrays
+	int largestSize = findLargestArr(arrayOfArrays);
+
+	// sum from [1:n] = (n + (n + 1)) / 2
+	int tempExpected = (largestSize * (largestSize + 1)) / 2;
+
+	int tempActual = 0;
+	for (int i = 0; i < arrayOfArrays.size(); ++i)
+		tempActual += arrayOfArrays[i].size();
+
+	if (tempExpected == tempActual)
+		return 0;
+	else
+		return tempExpected - tempActual;
+
+	return 0;
+}
+
+
+// Find the max difference in length between the length of min and max strings
+static int HR_functions::MaxLengthDiff::mxdiflg(std::vector<std::string> &a1, std::vector<std::string> &a2) {
+	//Find max(abs(length(x) − length(y)))
+	if (a1.empty() || a2.empty())
+		return -1;
+
+	int maxLgS1 = HR_functions::MaxLengthDiff::largestString(a1);
+	int maxLgS2 = HR_functions::MaxLengthDiff::largestString(a2);
+
+	int minLgS1 = HR_functions::MaxLengthDiff::smallestString(a1);
+	int minLgS2 = HR_functions::MaxLengthDiff::smallestString(a2);
+
+	int temp1 = abs(maxLgS2 - minLgS1);
+	int temp2 = abs(maxLgS1 - minLgS2);
+
+	return std::max(temp1, temp2);
+}
+
+// Returns the longest string from a vector of strings
+static int HR_functions::MaxLengthDiff::largestString(std::vector<std::string> &s) {
+	unsigned int temp = 0;
+	for (int i = 0; i != s.size(); i++) {
+		if (temp < s[i].length())
+			temp = s[i].length();
+	}
+	return temp;
+}
+
+// Returns the shortest string from a vector of strings
+static int HR_functions::MaxLengthDiff::smallestString(std::vector<std::string> &s) {
+	unsigned int temp = 999999999;
+	for (int i = 0; i != s.size(); i++) {
+		if (temp > s[i].length())
+			temp = s[i].length();
+	}
+	return temp;
 }
 
 
